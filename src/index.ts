@@ -1,3 +1,16 @@
 import 'dotenv/config';
+import http from 'http';
 
-console.log(process.env.PORT);
+import { servicesController } from './services/index';
+
+const server = http.createServer(async (request, response) => {
+  try {
+    await servicesController(request, response);
+  } catch {
+    response.statusCode = 500;
+    response.write('Error from server, status code 500');
+    response.end();
+  }
+});
+
+server.listen(process.env.PORT);
