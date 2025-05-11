@@ -67,7 +67,7 @@ const postNewUser = async (req: IncomingMessage, res: ServerResponse) => {
     }
   });
   req.on('end', () => {
-    res.statusCode = 202;
+    res.statusCode = 201;
     res.end('POST');
   });
 };
@@ -110,9 +110,41 @@ const updateUser = async (
   });
 
   req.on('end', () => {
-    res.statusCode = 202;
+    res.statusCode = 200;
     res.end('PUT');
   });
 };
 
-export { getAllUsers, notFound404, getOneUser, postNewUser, updateUser };
+const deleteUser = async (basePath: string, res: ServerResponse) => {
+  const validate = await getValidateUserId(basePath);
+  if (!validate) {
+    res.statusCode = 400;
+    console.log('invalid id');
+    res.end('invalid id');
+    return;
+  }
+
+  const findUser = await getFilterUser(userData, basePath);
+
+  if (!findUser) {
+    res.statusCode = 404;
+    console.log('user doesn`t exist');
+    res.end('user doesn`t exist');
+    return;
+  }
+
+  const index = userData.findIndex((elem) => elem.id === findUser.id);
+  userData.splice(index, 1);
+
+  res.statusCode = 204;
+  res.end('DELETE');
+};
+
+export {
+  getAllUsers,
+  notFound404,
+  getOneUser,
+  postNewUser,
+  updateUser,
+  deleteUser,
+};

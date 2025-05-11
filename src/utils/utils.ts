@@ -73,12 +73,9 @@ const updateOldUser = async (
         throw new Error('hobbies must contain only string type');
       }
     });
-    const data = oldData.hobbies;
-    console.log(data);
-    oldData.hobbies = [...newData.hobbies, ...(data ?? [])];
-    console.log(oldData.hobbies);
 
-    console.log(newData.hobbies);
+    const data = oldData.hobbies;
+    oldData.hobbies = [...newData.hobbies, ...(data ?? [])];
   }
 };
 

@@ -5,6 +5,7 @@ import {
   getOneUser,
   postNewUser,
   updateUser,
+  deleteUser,
 } from './controller';
 import path from 'node:path';
 
@@ -25,6 +26,8 @@ export const servicesController = async (
       return await postNewUser(req, res);
     if (paths.dir === '/api/users' && req.method === 'PUT' && paths.base)
       return await updateUser(paths.base, req, res);
+    if (paths.dir === '/api/users' && req.method === 'DELETE' && paths.base)
+      return await deleteUser(paths.base, res);
 
     await notFound404(res);
   }
