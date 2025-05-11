@@ -1,5 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { getAllUsers, notFound404, getOneUser } from './controller';
+import {
+  getAllUsers,
+  notFound404,
+  getOneUser,
+  postNewUser,
+} from './controller';
 import path from 'node:path';
 
 export const servicesController = async (
@@ -15,6 +20,8 @@ export const servicesController = async (
       return await getAllUsers(res);
     if (paths.dir === '/api/users' && req.method === 'GET' && paths.base)
       return await getOneUser(paths.base, res);
+    if (paths.dir === '/api' && paths.base === 'users' && req.method === 'POST')
+      return await postNewUser(req, res);
 
     await notFound404(res);
   }

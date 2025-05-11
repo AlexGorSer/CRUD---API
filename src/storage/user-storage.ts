@@ -5,6 +5,8 @@ interface UserObject {
   hobbies: string[] | [];
 }
 
+type POSTdata = Omit<UserObject, 'id'>;
+
 const userData: UserObject[] = [
   {
     id: '9b283e59-1f0f-42ca-9d50-995c40c46e92',
@@ -26,4 +28,4 @@ const userData: UserObject[] = [
   },
 ];
 
-export { userData, UserObject };
+export { userData, UserObject, POSTdata };

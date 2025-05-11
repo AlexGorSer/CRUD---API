@@ -1,6 +1,7 @@
-import { ServerResponse } from 'http';
+import { ServerResponse, IncomingMessage } from 'http';
 import { userData } from '../storage/user-storage';
-import { getFilterUser, getValidateUserId } from '../utils/utils';
+import { getFilterUser, getValidateUserId, validNewUser } from '../utils/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 const getAllUsers = async (res: ServerResponse) => {
   res.statusCode = 200;
@@ -44,4 +45,26 @@ const notFound404 = async (res: ServerResponse) => {
   console.log('url path doesn`t exist');
 };
 
-export { getAllUsers, notFound404, getOneUser };
+const postNewUser = async (req: IncomingMessage, res: ServerResponse) => {
+  let jsonData: string = '';
+  req.on('data', async (chunk) => {
+    jsonData += chunk.toString();
+
+    try {
+      const data = await validNewUser(jsonData, res);
+      if (data) {
+        const { username, age, hobbies } = data;
+        userData.push({ id: uuidv4(), username, age, hobbies });
+      }
+    } catch {
+      res.statusCode = 400;
+      res.end('incorrect json request');
+    }
+  });
+  req.on('end', () => {
+    res.statusCode = 202;
+    res.end('POST');
+  });
+};
+
+export { getAllUsers, notFound404, getOneUser, postNewUser };
