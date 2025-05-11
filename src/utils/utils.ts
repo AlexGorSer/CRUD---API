@@ -34,7 +34,7 @@ const validNewUser = async (jsonString: string, res: ServerResponse) => {
       if (typeof elem !== 'string') {
         res.statusCode = 400;
         res.end('hobbies must contain only string type');
-        return;
+        throw new Error('hobbies must contain only string type');
       }
     });
     console.log(data);
@@ -46,4 +46,40 @@ const validNewUser = async (jsonString: string, res: ServerResponse) => {
   return data;
 };
 
-export { getFilterUser, getValidateUserId, validNewUser };
+const updateOldUser = async (
+  oldData: UserObject,
+  newData: UserObject,
+  res: ServerResponse,
+) => {
+  if (newData.age && typeof newData.age === 'number') {
+    oldData.age = newData.age;
+  } else {
+    res.statusCode = 400;
+    res.end('age must be number type');
+    return;
+  }
+  if (newData.username && typeof newData.username === 'string') {
+    oldData.username = newData.username;
+  } else {
+    res.statusCode = 400;
+    res.end('username must be string type');
+    return;
+  }
+  if (newData.hobbies && Array.isArray(newData.hobbies)) {
+    newData.hobbies.forEach((elem) => {
+      if (typeof elem !== 'string') {
+        res.statusCode = 400;
+        res.end('hobbies must contain only string type');
+        throw new Error('hobbies must contain only string type');
+      }
+    });
+    const data = oldData.hobbies;
+    console.log(data);
+    oldData.hobbies = [...newData.hobbies, ...(data ?? [])];
+    console.log(oldData.hobbies);
+
+    console.log(newData.hobbies);
+  }
+};
+
+export { getFilterUser, getValidateUserId, validNewUser, updateOldUser };

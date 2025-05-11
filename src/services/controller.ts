@@ -1,6 +1,11 @@
 import { ServerResponse, IncomingMessage } from 'http';
-import { userData } from '../storage/user-storage';
-import { getFilterUser, getValidateUserId, validNewUser } from '../utils/utils';
+import { userData, UserObject } from '../storage/user-storage';
+import {
+  getFilterUser,
+  getValidateUserId,
+  updateOldUser,
+  validNewUser,
+} from '../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 const getAllUsers = async (res: ServerResponse) => {
@@ -66,5 +71,48 @@ const postNewUser = async (req: IncomingMessage, res: ServerResponse) => {
     res.end('POST');
   });
 };
+const updateUser = async (
+  basePath: string,
+  req: IncomingMessage,
+  res: ServerResponse,
+) => {
+  const validate = await getValidateUserId(basePath);
+  if (!validate) {
+    res.statusCode = 400;
+    console.log('invalid id');
+    res.end('invalid id');
+    return;
+  }
 
-export { getAllUsers, notFound404, getOneUser, postNewUser };
+  const oldData = await getFilterUser(userData, basePath);
+
+  if (!oldData) {
+    res.statusCode = 404;
+    console.log('user doesn`t exist');
+    res.end('user doesn`t exist');
+    return;
+  }
+
+  let jsonData: string = '';
+
+  req.on('data', async (chunk) => {
+    jsonData += chunk.toString();
+
+    try {
+      const newData: UserObject = JSON.parse(jsonData);
+      if (newData) {
+        await updateOldUser(oldData, newData, res);
+      }
+    } catch {
+      res.statusCode = 400;
+      res.end('incorrect json request');
+    }
+  });
+
+  req.on('end', () => {
+    res.statusCode = 202;
+    res.end('PUT');
+  });
+};
+
+export { getAllUsers, notFound404, getOneUser, postNewUser, updateUser };

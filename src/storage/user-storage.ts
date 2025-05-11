@@ -1,8 +1,8 @@
 interface UserObject {
-  id: string;
-  username: string;
-  age: number;
-  hobbies: string[] | [];
+  id?: string;
+  username?: string;
+  age?: number;
+  hobbies?: string[] | [];
 }
 
 type POSTdata = Omit<UserObject, 'id'>;
