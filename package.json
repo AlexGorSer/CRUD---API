@@ -1,0 +1,35 @@
+{
+  "name": "crud---api",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start:dev": "nodemon --exec ts-node src/develop-up.ts",
+    "start:balancer": "nodemon --exec ts-node src/balancer.ts",
+    "start:prod": "tsc && node build/multi-servers.js",
+    "start:multi": "nodemon --exec ts-node src/multi-servers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexGorSer/CRUD---API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexGorSer/CRUD---API/issues"
+  },
+  "homepage": "https://github.com/AlexGorSer/CRUD---API#readme",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "eslint": "^9.26.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "uuid": "^11.1.0"
+  }
+}
