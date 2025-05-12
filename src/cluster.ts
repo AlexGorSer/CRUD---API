@@ -1,7 +1,7 @@
 import cluster from 'cluster';
 import os from 'node:os';
 import 'dotenv/config';
-import { upServer } from '../index';
+import { upServer } from './index';
 
 const ports = [
   process.env.PORT_ONE,

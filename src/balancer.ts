@@ -49,3 +49,11 @@ const roundRequest = async (
 server.listen(process.env.BALANCER_PORT, () => {
   console.log(`Server balancer start on ${process.env.BALANCER_PORT}`);
 });
+
+const serverBal = () => {
+  server.listen(process.env.BALANCER_PORT, () => {
+    console.log(`Server balancer start on ${process.env.BALANCER_PORT}`);
+  });
+};
+
+export { serverBal };
