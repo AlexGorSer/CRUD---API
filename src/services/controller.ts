@@ -9,8 +9,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const getAllUsers = async (res: ServerResponse) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/json');
+  res.writeHead(200, { 'Content-Type': 'text/json' });
   res.write(JSON.stringify(userData));
   res.end();
   console.log('Send all users, status code 200');
@@ -34,8 +33,7 @@ const getOneUser = async (basePath: string, res: ServerResponse) => {
     return;
   }
 
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/json');
+  res.writeHead(200, { 'Content-Type': 'text/json' });
 
   console.log(findUser);
   res.end(JSON.stringify(findUser));
@@ -43,8 +41,7 @@ const getOneUser = async (basePath: string, res: ServerResponse) => {
 };
 
 const notFound404 = async (res: ServerResponse) => {
-  res.statusCode = 404;
-  res.setHeader('Content-Type', 'text/json');
+  res.writeHead(404, { 'Content-Type': 'text/json' });
   res.write('url path doesn`t exist');
   res.end();
   console.log('url path doesn`t exist');

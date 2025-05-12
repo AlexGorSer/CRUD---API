@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import http from 'http';
+import 'dotenv/config';
 
 import { servicesController } from './services/index';
 
@@ -16,4 +17,6 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(process.env.PORT);
+server.listen(process.env.PORT, () => {
+  console.log(`server start on ${process.env.port}`);
+});
