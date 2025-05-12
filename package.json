@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "start:dev": "nodemon --exec ts-node src/index.ts",
+    "start:dev": "nodemon --exec ts-node src/dev-server.ts",
     "start:prod": "tsc",
+    "start:multi": "nodemon --exec ts-node src/services/cluster.ts",
     "balancer": "nodemon --exec ts-node src/balancer.ts"
   },
   "repository": {

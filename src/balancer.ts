@@ -1,5 +1,4 @@
 import http, { IncomingMessage, ServerResponse } from 'node:http';
-// import path from 'node:path';
 import 'dotenv/config';
 
 interface RQList {
@@ -16,13 +15,6 @@ const reqList = [
 ];
 
 const server = http.createServer(async (req, res) => {
-  // console.log(indexServer);
-
-  // if (req.url) {
-  //   const paths = path.parse(req.url.toString());
-  //   console.log(paths);
-  // }
-
   const nextServer = reqList[indexServer];
   await roundRequest(req, res, nextServer);
   indexServer = (indexServer + 1) % reqList.length;
@@ -55,5 +47,5 @@ const roundRequest = async (
 };
 
 server.listen(process.env.BALANCER_PORT, () => {
-  console.log(`Server start on ${process.env.BALANCER_PORT}`);
+  console.log(`Server balancer start on ${process.env.BALANCER_PORT}`);
 });
